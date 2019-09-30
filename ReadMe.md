@@ -10,28 +10,28 @@ intdata   catdata    target
               
 ### 模型结构
 
-DLRM_Net(
-  (emb_l): ModuleList(
-    (0): EmbeddingBag(6, 3, mode=sum)
-    (1): EmbeddingBag(7, 3, mode=sum)
-    (2): EmbeddingBag(6, 3, mode=sum)
-    (3): EmbeddingBag(5, 3, mode=sum)
-    (4): EmbeddingBag(8, 3, mode=sum)
-    (5): EmbeddingBag(6, 3, mode=sum)
-    (6): EmbeddingBag(5, 3, mode=sum)
-  )
-  (bot_l): Sequential(
-    (0): Linear(in_features=5, out_features=2, bias=True)
-    (1): ReLU()
-    (2): Linear(in_features=2, out_features=3, bias=True)
-    (3): ReLU()
-  )
-  (top_l): Sequential(
-    (0): Linear(in_features=31, out_features=4, bias=True)
-    (1): ReLU()
-    (2): Linear(in_features=4, out_features=3, bias=True)
-    (3): ReLU()
-    (4): Linear(in_features=3, out_features=1, bias=True)
-    (5): Sigmoid()
-  )
-)
+SDP_L(   
+  (emb): ModuleList(    
+    (0): EmbeddingBag(6, 3, mode=sum)     
+    (1): EmbeddingBag(7, 3, mode=sum)  
+    (2): EmbeddingBag(6, 3, mode=sum)  
+    (3): EmbeddingBag(5, 3, mode=sum)  
+    (4): EmbeddingBag(8, 3, mode=sum)  
+    (5): EmbeddingBag(6, 3, mode=sum)  
+    (6): EmbeddingBag(5, 3, mode=sum)  
+  )  
+  (ann): Sequential(  
+    (0): Linear(in_features=5, out_features=2, bias=True)  
+    (1): ReLU()   
+    (2): Linear(in_features=2, out_features=3, bias=True)    
+    (3): ReLU()  
+  )  
+  (ann): Sequential(  
+    (0): Linear(in_features=31, out_features=4, bias=True)  
+    (1): ReLU()  
+    (2): Linear(in_features=4, out_features=3, bias=True)  
+    (3): ReLU()  
+    (4): Linear(in_features=3, out_features=1, bias=True)  
+    (5): Sigmoid()  
+  )  
+)  
