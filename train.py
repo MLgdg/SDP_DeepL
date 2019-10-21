@@ -5,7 +5,7 @@ from torch.utils.data import Dataset
 from numpy import random as ra
 from os import  path
 from sklearn.metrics import  roc_auc_score 
-import model.DLRM_Net.DLRM_Net.
+import model.DLRM_Net.DLRM_Net
 from torch.utils.data.sampler import  WeightedRandomSampler
 import data.collate_wrapper.collate_wrapper
 
@@ -13,7 +13,7 @@ wei_data=np.load('all_train.npz')
 wei_data_y=wei_data['y']
 weights=[1000  if target==1 else 6  for target in wei_data_y]
 sampler = WeightedRandomSampler(weights,num_samples=len(wei_data_y)*2, replacement=True)
-#train_data°üº¬³íÃÜÌØÕ÷µÄÎ¬¶È£¬ºÍÏ¡ÊèÌØÕ÷µÄ¸öÊı
+#train_dataåŒ…å«ç¨ å¯†ç‰¹å¾çš„ç»´åº¦ï¼Œå’Œç¨€ç–ç‰¹å¾çš„ä¸ªæ•°
 train_data = CriteoDataset(
     dataset="all_train.npz",
     randomize="total",
@@ -27,10 +27,10 @@ train_loader = torch.utils.data.DataLoader(
     #shuffle=False,
     sampler=sampler,
     num_workers=0,
-    collate_fn=collate_wrapper,#¸Ãº¯ÊıµÄÊäÈëÊÇÒ»¸öbatchµÄÊı¾İµÄlist¸ñÊ½
+    collate_fn=collate_wrapper,#è¯¥å‡½æ•°çš„è¾“å…¥æ˜¯ä¸€ä¸ªbatchçš„æ•°æ®çš„listæ ¼å¼
     pin_memory=False,
     drop_last=False)
-#train_data°üº¬³íÃÜÌØÕ÷µÄÎ¬¶È£¬ºÍÏ¡ÊèÌØÕ÷µÄ¸öÊı
+#train_dataåŒ…å«ç¨ å¯†ç‰¹å¾çš„ç»´åº¦ï¼Œå’Œç¨€ç–ç‰¹å¾çš„ä¸ªæ•°
 test_data = CriteoDataset(
     dataset="all_eval.npz",
     randomize="total",
@@ -43,7 +43,7 @@ test_loader = torch.utils.data.DataLoader(
     batch_size=100000, ##test_data.dataset_size,
     shuffle=False,
     num_workers=0,
-    collate_fn=collate_wrapper,#¸Ãº¯ÊıµÄÊäÈëÊÇÒ»¸öbatchµÄÊı¾İµÄlist¸ñÊ½
+    collate_fn=collate_wrapper,#è¯¥å‡½æ•°çš„è¾“å…¥æ˜¯ä¸€ä¸ªbatchçš„æ•°æ®çš„listæ ¼å¼
     pin_memory=False,
     drop_last=False)
 
@@ -54,7 +54,7 @@ ln_bot = np.fromstring(arch_mlp_bot, dtype=int, sep="-")
 ln_emb = train_data.counts
 m_den = train_data.m_den
 ln_bot[0] = m_den
-m_spa = 64 # Òş²ØÌØÕ÷´óĞ¡
+m_spa = 64 # éšè—ç‰¹å¾å¤§å°
 arch_interaction_op="cat"
 num_fea = ln_emb.size + 1  # num sparse + num dense features #=8
 m_den_out = ln_bot[ln_bot.size - 1]#=2
@@ -65,7 +65,7 @@ loss_threshold=0.0
 loss_function='bce'
 inference_only=False
 
-if arch_interaction_op == "dot": #ÊÇÕâ¸ö
+if arch_interaction_op == "dot": #æ˜¯è¿™ä¸ª
     # approach 1: all
     # num_int = num_fea * num_fea + m_den_out
     # approach 2: unique
@@ -126,7 +126,7 @@ else:
 
 while k < nepochs:
     k=k+1
-    '''²âÊÔ²¿·Ö'''
+    '''æµ‹è¯•éƒ¨åˆ†'''
     for (X, lS_o, lS_i,T) in test_loader:
         X=X.cuda(1)
         lS_o=[S_o.cuda(1) for S_o in lS_o]
@@ -136,10 +136,10 @@ while k < nepochs:
         S = Z.detach().cpu().numpy()
         T = T.detach().cpu().numpy()
         auc=roc_auc_score(T,S)
-        print("µÚ{}ÂÖ²âÊÔ¼¯AUC : {}".format(k,auc))
+        print("ç¬¬{}è½®æµ‹è¯•é›†AUC : {}".format(k,auc))
     
     for j, (X, lS_o, lS_i, T) in enumerate(train_loader):
-        #print("µÚ{}ÂÖÑ­»·µÄµÚ{}batch".format(k,j))
+        #print("ç¬¬{}è½®å¾ªç¯çš„ç¬¬{}batch".format(k,j))
         X=X.cuda(1)
         lS_o=[S_o.cuda(1) for S_o in lS_o]
         lS_i= [S_i.cuda(1) for S_i in lS_i]
@@ -156,7 +156,7 @@ while k < nepochs:
         mbs = T.shape[0]  # = args.mini_batch_size except maybe for last
         A = np.sum((np.round(S, 0) == T).astype(np.uint8)) / mbs
         if j%5000==0:
-            print("µÚ{}ÂÖÑ­»·   µÄµÚ{}batch loss£º{}        train-acc£º{}".format(k,j,E,A))
+            print("ç¬¬{}è½®å¾ªç¯   çš„ç¬¬{}batch lossï¼š{}        train-accï¼š{}".format(k,j,E,A))
         ops.zero_grad()
         E.backward()
         ops.step()
