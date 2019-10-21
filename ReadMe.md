@@ -35,3 +35,10 @@ SDP_L(
     (5): Sigmoid()  
   )  
 )  
+
+## 使用
+首先需要将函数路径添加的环境路径 
+'' import sys
+   sys.path.append("./data/")
+   sys.path.append("./model/")
+''
