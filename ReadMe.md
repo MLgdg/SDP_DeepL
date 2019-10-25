@@ -1,6 +1,6 @@
 ## 特征  
 特征工程是至关重要的一个环节，挑选特征同时尽量保证特征的属性，合理性和不合理性等等
-![代码](https://github.com/MLgdg/SDP_DeepL)
+[https://www.baidu.com/s?ie=UTF-8&wd=markdown%20%E9%93%BE%E6%8E%A5][地址]
 
 ## 输入数据结构以及模型结构
 数据由类别数据和数值型数据构成，其次是标签数据，  
